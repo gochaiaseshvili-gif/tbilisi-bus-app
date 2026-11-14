@@ -63,9 +63,19 @@
     .split {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-auto-rows: 520px;
+      grid-auto-rows: auto;
       gap: 6px;
       padding: 6px;
+    }
+    .pane {
+      height: 520px;
+      display: flex;
+      flex-direction: column;
+      background: #1d1f24;
+      border: 1px solid #333741;
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 0;
     }
     .pane-full {
       grid-column: 1 / -1;
@@ -74,20 +84,13 @@
     @media (max-width: 860px) {
       .split {
         grid-template-columns: 1fr;
-        grid-auto-rows: 580px;
+      }
+      .pane {
+        height: 580px;
       }
       .pane-full {
         height: 760px;
       }
-    }
-    .pane {
-      display: flex;
-      flex-direction: column;
-      background: #1d1f24;
-      border: 1px solid #333741;
-      border-radius: 12px;
-      overflow: hidden;
-      min-height: 0;
     }
     .pane-head {
       padding: 6px 10px;
