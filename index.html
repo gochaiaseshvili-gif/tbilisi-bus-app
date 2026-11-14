@@ -405,6 +405,7 @@
       }
       refreshStrips();
       loadBottomMap();
+    setInterval(loadBottomMap, 25000);
     });
 
     // Interactive Leaflet route map (works 100% on GitHub Pages without TTC Mapbox cross-origin errors)
@@ -505,9 +506,11 @@
           }
         }
 
-        // Draw active buses with red arrows
+        // Draw active buses with red arrows (ensure both 368 and 477 are checked)
         const nowMs = Date.now();
-        const tripEntries = Array.from(activeTrips.entries()).slice(0, 14);
+        const trips368 = Array.from(activeTrips.entries()).filter(([, n]) => n === '368').slice(0, 12);
+        const trips477 = Array.from(activeTrips.entries()).filter(([, n]) => n === '477').slice(0, 12);
+        const tripEntries = [...trips368, ...trips477];
         await Promise.allSettled(
           tripEntries.map(async ([tid, num]) => {
             const trRes = await fetch(`https://api.transitous.org/api/v1/trip?tripId=${encodeURIComponent(tid)}`);
@@ -549,6 +552,7 @@
     }
 
     loadBottomMap();
+    setInterval(loadBottomMap, 25000);
   </script>
 </body>
 </html>
