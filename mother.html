@@ -11,7 +11,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <style>
     * { box-sizing: border-box; }
     html, body {
@@ -141,41 +140,6 @@
       background: #ffffff;
       min-height: 0;
     }
-    .map-pane {
-      grid-column: 1 / -1;
-      height: 460px;
-    }
-    .map-box {
-      width: 100%;
-      flex: 1;
-      min-height: 0;
-    }
-    .bus-marker-wrap {
-      background: transparent;
-      border: none;
-    }
-    .bus-marker-badge {
-      position: relative;
-      width: 34px;
-      height: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .bus-marker-num {
-      position: absolute;
-      bottom: -13px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #dc2626;
-      color: #ffffff;
-      font-size: 10px;
-      font-weight: 800;
-      padding: 1px 4px;
-      border-radius: 5px;
-      border: 1px solid #ffffff;
-      white-space: nowrap;
-    }
   </style>
 </head>
 <body>
@@ -221,21 +185,8 @@
       </div>
       <iframe id="f-3462" scrolling="no" src="https://transit.ttc.com.ge/#/board-info/1:3462/arrival-times?setLng=ka" title="368 &amp; 477 - 3462"></iframe>
     </section>
-
-    <section class="pane map-pane">
-      <div class="pane-head">
-        <span>
-          🗺️ მთელი გზის რუკა:
-          <span class="badge" style="background:#00b38b">368</span>
-          <span class="badge" style="background:#2563eb">477</span>
-        </span>
-        <span style="font-size:0.75rem;color:#a1a7b3;">დააჭირეთ გაჩერებას კოდის სანახავად</span>
-      </div>
-      <div id="bottom-map" class="map-box"></div>
-    </section>
   </main>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
     const URLS = {
       368: {
@@ -279,156 +230,9 @@
 
     document.getElementById('btn-refresh').addEventListener('click', () => {
       refreshBoards();
-      loadBottomMap();
     });
 
     setInterval(refreshBoards, 10000);
-
-    // Interactive Leaflet route map (works 100% on GitHub Pages without TTC Mapbox cross-origin errors)
-    let bottomMap = null;
-    let bottomLayer = null;
-    let bottomFitted = false;
-
-    function decodePolyline(encoded, precision = 7) {
-      if (!encoded) return [];
-      const factor = 10 ** precision;
-      const coords = [];
-      let index = 0, lat = 0, lng = 0;
-      while (index < encoded.length) {
-        let res = 0, shift = 0, b;
-        do { b = encoded.charCodeAt(index++) - 63; res |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
-        lat += res & 1 ? ~(res >> 1) : res >> 1;
-        res = 0; shift = 0;
-        do { b = encoded.charCodeAt(index++) - 63; res |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
-        lng += res & 1 ? ~(res >> 1) : res >> 1;
-        coords.push([lat / factor, lng / factor]);
-      }
-      return coords;
-    }
-
-    function computeBearing(lat1, lon1, lat2, lon2) {
-      const toRad = (d) => (d * Math.PI) / 180;
-      const y = Math.sin(toRad(lon2 - lon1)) * Math.cos(toRad(lat2));
-      const x = Math.cos(toRad(lat1)) * Math.sin(toRad(lat2)) - Math.sin(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.cos(toRad(lon2 - lon1));
-      return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
-    }
-
-    async function loadBottomMap() {
-      if (typeof window.L === 'undefined') return;
-      if (!bottomMap) {
-        bottomMap = window.L.map('bottom-map').setView([41.7205, 44.805], 14);
-        window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; OpenStreetMap',
-        }).addTo(bottomMap);
-        bottomLayer = window.L.layerGroup().addTo(bottomMap);
-      }
-
-      try {
-        const now = new Date();
-        const start = new Date(now.getTime() - 25 * 60000).toISOString();
-        const end = new Date(now.getTime() + 15 * 60000).toISOString();
-        const mtRes = await fetch(
-          `https://api.transitous.org/api/v1/map/trips?min=41.714,44.785&max=41.732,44.825&startTime=${encodeURIComponent(start)}&endTime=${encodeURIComponent(end)}&zoom=15`
-        );
-        if (!mtRes.ok) return;
-        const items = await mtRes.json();
-
-        const sampleByRoute = {};
-        const activeTrips = new Map();
-        for (const item of items) {
-          for (const t of Array.isArray(item.trips) ? item.trips : [item]) {
-            if (t.routeShortName === '368' || t.routeShortName === '477') {
-              if (!sampleByRoute[t.routeShortName]) sampleByRoute[t.routeShortName] = t.tripId;
-              if (t.tripId && !activeTrips.has(t.tripId)) activeTrips.set(t.tripId, t.routeShortName);
-            }
-          }
-        }
-
-        bottomLayer.clearLayers();
-        const bounds = [];
-        const colors = { 368: '#00b38b', 477: '#2563eb' };
-        const highlightCodes = new Set(['2026', '2300', '2308', '3462']);
-
-        for (const num of ['368', '477']) {
-          const tripId = sampleByRoute[num];
-          if (!tripId) continue;
-          const trRes = await fetch(`https://api.transitous.org/api/v1/trip?tripId=${encodeURIComponent(tripId)}`);
-          if (!trRes.ok) continue;
-          const tr = await trRes.json();
-          const leg = tr.legs?.[0];
-          if (!leg) continue;
-
-          const pts = decodePolyline(leg.legGeometry?.points, leg.legGeometry?.precision || 7);
-          if (pts.length > 1) {
-            window.L.polyline(pts, { color: colors[num], weight: 5, opacity: 0.88 }).addTo(bottomLayer);
-            bounds.push(...pts);
-          }
-
-          const allStops = [leg.from, ...(leg.intermediateStops || []), leg.to].filter(Boolean);
-          for (const s of allStops) {
-            if (typeof s.lat !== 'number' || typeof s.lon !== 'number') continue;
-            const code = String(s.stopId || '').split(':').pop();
-            const isKey = highlightCodes.has(code);
-            const m = window.L.circleMarker([s.lat, s.lon], {
-              radius: isKey ? 8 : 4.5,
-              color: '#ffffff',
-              weight: isKey ? 2.5 : 1.5,
-              fillColor: isKey ? '#f59e0b' : colors[num],
-              fillOpacity: 1,
-            }).addTo(bottomLayer);
-            m.bindPopup(`<strong>№ ${num}</strong><br/>${s.name} <strong>[${code}]</strong>`);
-            bounds.push([s.lat, s.lon]);
-          }
-        }
-
-        // Draw active buses with red arrows (ensure both 368 and 477 are checked)
-        const nowMs = Date.now();
-        const trips368 = Array.from(activeTrips.entries()).filter(([, n]) => n === '368').slice(0, 12);
-        const trips477 = Array.from(activeTrips.entries()).filter(([, n]) => n === '477').slice(0, 12);
-        const tripEntries = [...trips368, ...trips477];
-        await Promise.allSettled(
-          tripEntries.map(async ([tid, num]) => {
-            const trRes = await fetch(`https://api.transitous.org/api/v1/trip?tripId=${encodeURIComponent(tid)}`);
-            if (!trRes.ok) return;
-            const tr = await trRes.json();
-            const leg = tr.legs?.[0];
-            if (!leg) return;
-            const stops = [leg.from, ...(leg.intermediateStops || []), leg.to].filter(Boolean);
-            for (let i = 0; i < stops.length - 1; i++) {
-              const t1 = Date.parse(stops[i].departure || stops[i].scheduledDeparture || stops[i].arrival || '');
-              const t2 = Date.parse(stops[i + 1].departure || stops[i + 1].scheduledDeparture || stops[i + 1].arrival || '');
-              if (!Number.isNaN(t1) && !Number.isNaN(t2) && nowMs >= t1 && nowMs <= t2) {
-                const ratio = (nowMs - t1) / Math.max(1, t2 - t1);
-                const lat = stops[i].lat + (stops[i + 1].lat - stops[i].lat) * ratio;
-                const lon = stops[i].lon + (stops[i + 1].lon - stops[i].lon) * ratio;
-                const angle = Math.round(computeBearing(stops[i].lat, stops[i].lon, stops[i + 1].lat, stops[i + 1].lon));
-                const icon = window.L.divIcon({
-                  className: 'bus-marker-wrap',
-                  iconSize: [34, 34],
-                  iconAnchor: [17, 17],
-                  html: `<div class="bus-marker-badge"><svg width="34" height="34" viewBox="0 0 44 44" style="overflow:visible;"><g transform="rotate(${angle} 22 22)"><polygon points="22,0 28,10 16,10" fill="#dc2626" stroke="#ffffff" stroke-width="1.2"/></g><circle cx="22" cy="22" r="13" fill="#dc2626" stroke="#ffffff" stroke-width="2.2"/><rect x="16" y="15" width="12" height="11" rx="2.5" fill="#ffffff"/><rect x="17.5" y="16.5" width="9" height="5" rx="1" fill="#dc2626"/></svg><span class="bus-marker-num">${num}</span></div>`,
-                });
-                window.L.marker([lat, lon], { icon, zIndexOffset: 500 })
-                  .addTo(bottomLayer)
-                  .bindPopup(`<strong>ავტობუსი № ${num}</strong> (განრიგით)<br/>შემდეგი: ${stops[i + 1].name}`);
-                break;
-              }
-            }
-          })
-        );
-
-        if (bounds.length > 0 && !bottomFitted) {
-          bottomMap.fitBounds(bounds, { padding: [20, 20] });
-          bottomFitted = true;
-        }
-      } catch {
-        // Keep map visible on transient error
-      }
-    }
-
-    loadBottomMap();
-    setInterval(loadBottomMap, 5000);
   </script>
 </body>
 </html>
