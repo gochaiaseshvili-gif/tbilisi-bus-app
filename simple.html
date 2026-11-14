@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#121316" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>ჩემი ავტობუსები — მარტივი განრიგი</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #121316;
+      color: #f3f4f6;
+      font-family: 'Noto Sans Georgian', system-ui, sans-serif;
+      padding-bottom: 28px;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #1d1f24;
+      border-bottom: 1px solid #333741;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .topbar h1 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+    .updated {
+      font-size: 0.8rem;
+      color: #a1a7b3;
+    }
+    .btn {
+      background: #e11d48;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-sec {
+      background: #272a31;
+      border: 1px solid #333741;
+    }
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .card {
+      background: #1d1f24;
+      border: 1px solid #333741;
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      padding: 6px 12px;
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+    .stop-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+    .stop-sub {
+      font-size: 0.82rem;
+      color: #a1a7b3;
+    }
+    .next-hero {
+      background: rgba(190, 18, 60, 0.16);
+      border: 2px solid #be123c;
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .hero-left {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fecdd3;
+    }
+    .hero-right {
+      text-align: right;
+    }
+    .hero-min {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #fb7185;
+      line-height: 1.1;
+    }
+    .hero-hhmm {
+      font-size: 0.9rem;
+      color: #a1a7b3;
+      font-weight: 700;
+    }
+    .next-hero-blue {
+      background: rgba(37, 99, 235, 0.14);
+      border-color: #3b82f6;
+    }
+    .next-hero-blue .hero-left {
+      color: #dbeafe;
+    }
+    .next-hero-blue .hero-min {
+      color: #60a5fa;
+    }
+    .sub-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .chip {
+      background: #272a31;
+      border: 1px solid #3b404d;
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #a1a7b3;
+      padding: 4px 10px;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>🚌 მარტივი განრიგი</h1>
+      <div id="updated" class="updated">იტვირთება...</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <a class="btn btn-sec" href="/mother.html">🗺️ ტაბლო</a>
+      <button id="btn-refresh" class="btn" type="button">↻ განახლება</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="card-head">
+        <span class="badge" style="background:#9f1239">368</span>
+        <div>
+          <div class="stop-title">#220-ე საჯარო სკოლა - [2026]</div>
+          <div class="stop-sub">მიმართულება: სადგურის მოედანი 1</div>
+        </div>
+      </div>
+      <div id="body-368">იტვირთება...</div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <span class="badge" style="background:#0033b4">477</span>
+        <div>
+          <div class="stop-title">ქურდიანის ქუჩა - [2300]</div>
+          <div class="stop-sub">შემდეგი რეისები (განრიგით)</div>
+        </div>
+      </div>
+      <div id="body-477">იტვირთება...</div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <span class="badge" style="background:#9f1239">368</span>
+        <span class="badge" style="background:#0033b4">477</span>
+        <div>
+          <div class="stop-title">კლდიაშვილის ქუჩა - [3462]</div>
+          <div class="stop-sub">მხოლოდ 368 და 477 (სხვა ხაზების გარეშე)</div>
+        </div>
+      </div>
+      <div id="body-3462">იტვირთება...</div>
+    </section>
+
+    <p class="note">
+      წყარო: ოფიციალური TTC გეგმური განრიგი (GTFS). ცოცხალი GPS წუთებისთვის დააჭირეთ <strong>„🗺️ ტაბლო“</strong>-ს.
+    </p>
+  </main>
+
+  <script>
+    function fmtMin(m) {
+      if (m === null || m === undefined) return '';
+      return m <= 0 ? 'ახლა' : `${m} წთ-ში`;
+    }
+
+    function buildRouteBlock(times, routeNum, variantClass = '', emptyFallbackHtml = '') {
+      if (!times || times.length === 0) {
+        return emptyFallbackHtml || `<div class="stop-sub">№${routeNum}: უახლოეს პერიოდში რეისი ვერ მოიძებნა.</div>`;
+      }
+      const first = times[0];
+      const rest = times.slice(1, 6);
+      const prefix = routeNum ? `№${routeNum} · ` : '';
+
+      return `
+        <div class="sub-block">
+          <div class="next-hero ${variantClass}">
+            <div class="hero-left">${prefix}უახლოესი მოდის:</div>
+            <div class="hero-right">
+              <div class="hero-min">${fmtMin(first.minutesUntil)}</div>
+              <div class="hero-hhmm">საათი: ${first.time}</div>
+            </div>
+          </div>
+          ${
+            rest.length > 0
+              ? `<div class="chips">${rest
+                  .map(
+                    (t) =>
+                      `<span class="chip">${prefix}${t.time} (${fmtMin(t.minutesUntil)})</span>`
+                  )
+                  .join('')}</div>`
+              : ''
+          }
+        </div>
+      `;
+    }
+
+    function renderCardBody(containerId, times, variantClass = '') {
+      const el = document.getElementById(containerId);
+      el.innerHTML = buildRouteBlock(times, '', variantClass);
+    }
+
+    function renderCombined3462(times) {
+      const el = document.getElementById('body-3462');
+      const t477 = (times || []).filter((t) => t.routeNumber === '477');
+      const t368 = (times || []).filter((t) => t.routeNumber === '368');
+
+      const fallback368 = `
+        <div class="sub-block" style="margin-top:6px;">
+          <div class="next-hero" style="padding:10px 14px;">
+            <div class="hero-left">კლდიაშვილის ქუჩა - [3462] · ოფიციალური ტაბლო (368 და 477)</div>
+            <a class="btn" style="background:#9f1239;padding:6px 10px;font-size:0.82rem;white-space:nowrap;" href="https://transit.ttc.com.ge/#/board-info/1:3462/arrival-times?setLng=ka" target="_blank" rel="noopener">↗</a>
+          </div>
+          <iframe
+            src="https://transit.ttc.com.ge/#/board-info/1:3462/arrival-times?setLng=ka"
+            title="კლდიაშვილი 3462 ტაბლო"
+            style="width:100%;height:680px;border:2px solid #be123c;border-radius:14px;background:#fff;"
+          ></iframe>
+        </div>
+      `;
+
+      el.innerHTML =
+        buildRouteBlock(t477, '477', 'next-hero-blue') +
+        `<div style="margin-top:8px;">${buildRouteBlock(t368, '368', '', fallback368)}</div>`;
+    }
+
+    async function loadAll() {
+      document.getElementById('updated').textContent = 'იტვირთება...';
+      await Promise.all([
+        fetch('/api/stop-times?stopId=ge-tbilisi-transport-company_1:2026&route=368')
+          .then((r) => r.json())
+          .then((d) => renderCardBody('body-368', d.times || []))
+          .catch(() => renderCardBody('body-368', [])),
+
+        fetch('/api/stop-times?stopId=ge-tbilisi-transport-company_1:2300&route=477')
+          .then((r) => r.json())
+          .then((d) => renderCardBody('body-477', d.times || [], 'next-hero-blue'))
+          .catch(() => renderCardBody('body-477', [], 'next-hero-blue')),
+
+        fetch('/api/stop-times?stopId=ge-tbilisi-transport-company_1:3462')
+          .then((r) => r.json())
+          .then((d) => renderCombined3462(d.times || []))
+          .catch(() => renderCombined3462([])),
+      ]);
+
+      const nowStr = new Intl.DateTimeFormat('ka-GE', {
+        timeZone: 'Asia/Tbilisi',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      }).format(new Date());
+      document.getElementById('updated').textContent = `განახლდა: ${nowStr}`;
+    }
+
+    document.getElementById('btn-refresh').addEventListener('click', loadAll);
+    loadAll();
+    setInterval(loadAll, 30000);
+  </script>
+</body>
+</html>
