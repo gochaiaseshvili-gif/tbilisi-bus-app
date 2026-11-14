@@ -192,22 +192,6 @@
       </div>
       <iframe id="f-3462" src="https://transit.ttc.com.ge/#/board-info/1:3462/arrival-times?setLng=ka" title="368 &amp; 477 - 3462"></iframe>
     </section>
-
-    <section class="pane">
-      <div class="pane-head">
-        <span><span class="badge" style="background:#00b38b">368</span> მთელი გზის რუკა (თეკლათი → სადგური)</span>
-        <a class="btn" style="padding:2px 8px;font-size:0.75rem" href="https://transit.ttc.com.ge/#/realtime/1:R98308/1:01/stops/1:2026?setLng=ka" target="_blank" rel="noopener">↗</a>
-      </div>
-      <iframe id="f-map-368" src="https://transit.ttc.com.ge/#/realtime/1:R98308/1:01/stops/1:2026?setLng=ka" title="368 მთელი გზა"></iframe>
-    </section>
-
-    <section class="pane">
-      <div class="pane-head">
-        <span><span class="badge" style="background:#0033b4">477</span> მთელი გზის რუკა (სამშვილდე → სადგური)</span>
-        <a class="btn" style="padding:2px 8px;font-size:0.75rem" href="https://transit.ttc.com.ge/#/realtime/1:minibusR24403/0:01/stops/1:2308?setLng=ka" target="_blank" rel="noopener">↗</a>
-      </div>
-      <iframe id="f-map-477" src="https://transit.ttc.com.ge/#/realtime/1:minibusR24403/0:01/stops/1:2308?setLng=ka" title="477 მთელი გზა"></iframe>
-    </section>
   </main>
 
   <script>
@@ -363,7 +347,7 @@
     refreshStrips();
 
     document.getElementById('btn-refresh').addEventListener('click', () => {
-      for (const id of ['f-368', 'f-477', 'f-3462', 'f-map-368', 'f-map-477']) {
+      for (const id of ['f-368', 'f-477', 'f-3462']) {
         const frame = document.getElementById(id);
         if (frame) frame.src = frame.src;
       }
