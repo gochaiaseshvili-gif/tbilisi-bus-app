@@ -79,7 +79,10 @@
     }
     .pane-full {
       grid-column: 1 / -1;
-      height: 1100px;
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      height: 605px;
     }
     @media (max-width: 860px) {
       .split {
@@ -89,7 +92,8 @@
         height: 460px;
       }
       .pane-full {
-        height: 1250px;
+        max-width: none;
+        height: 605px;
       }
     }
     .pane-head {
