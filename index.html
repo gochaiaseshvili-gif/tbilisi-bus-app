@@ -69,7 +69,7 @@
       padding: 6px;
     }
     .pane {
-      height: 520px;
+      height: 360px;
       display: flex;
       flex-direction: column;
       background: #1d1f24;
@@ -80,17 +80,17 @@
     }
     .pane-full {
       grid-column: 1 / -1;
-      height: 640px;
+      height: 520px;
     }
     @media (max-width: 860px) {
       .split {
         grid-template-columns: 1fr;
       }
       .pane {
-        height: 580px;
+        height: 460px;
       }
       .pane-full {
-        height: 760px;
+        height: 620px;
       }
     }
     .pane-head {
@@ -196,10 +196,7 @@
           <a class="btn" style="padding:2px 8px;font-size:0.75rem" href="https://transit.ttc.com.ge/#/board-info/1:2026/arrival-times?setLng=ka" target="_blank" rel="noopener">↗</a>
         </div>
       </div>
-      <div id="times-368" class="next-strip">
-        <span class="next-label">შემდეგი დროები: იტვირთება...</span>
-      </div>
-      <iframe id="f-368" src="https://transit.ttc.com.ge/#/board-info/1:2026/arrival-times?setLng=ka" title="368 - 2026"></iframe>
+      <iframe id="f-368" scrolling="no" src="https://transit.ttc.com.ge/#/board-info/1:2026/arrival-times?setLng=ka" title="368 - 2026"></iframe>
     </section>
 
     <section class="pane">
@@ -210,11 +207,7 @@
           <a class="btn" style="padding:2px 8px;font-size:0.75rem" href="https://transit.ttc.com.ge/#/board-info/1:2308/arrival-times?setLng=ka" target="_blank" rel="noopener">↗</a>
         </div>
       </div>
-      <div id="times-477" class="next-strip">
-        <span class="next-label">შემდეგი დროები [2308]:</span>
-        <button id="sched-477-inline" class="btn" style="padding:2px 8px;font-size:0.78rem" type="button">📅 გახსენი [2308] განრიგი</button>
-      </div>
-      <iframe id="f-477" src="https://transit.ttc.com.ge/#/board-info/1:2308/arrival-times?setLng=ka" title="477 - 2308"></iframe>
+      <iframe id="f-477" scrolling="no" src="https://transit.ttc.com.ge/#/board-info/1:2308/arrival-times?setLng=ka" title="477 - 2308"></iframe>
     </section>
 
     <section class="pane pane-full">
@@ -226,10 +219,7 @@
         </span>
         <a class="btn" style="padding:2px 8px;font-size:0.75rem" href="https://transit.ttc.com.ge/#/board-info/1:3462/arrival-times?setLng=ka" target="_blank" rel="noopener">↗</a>
       </div>
-      <div id="times-3462" class="next-strip">
-        <span class="next-label">შემდეგი დროები [3462]: იტვირთება...</span>
-      </div>
-      <iframe id="f-3462" src="https://transit.ttc.com.ge/#/board-info/1:3462/arrival-times?setLng=ka" title="368 &amp; 477 - 3462"></iframe>
+      <iframe id="f-3462" scrolling="no" src="https://transit.ttc.com.ge/#/board-info/1:3462/arrival-times?setLng=ka" title="368 &amp; 477 - 3462"></iframe>
     </section>
 
     <section class="pane map-pane">
