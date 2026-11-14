@@ -180,7 +180,7 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="title">🚌 368 [2026] და 477 [2308] — ცოცხალი დრო</div>
+    <div class="title">🚌 368 [2026] და 477 [2308] · <span id="last-sync" style="color:#a1a7b3;font-size:0.8rem;font-weight:600;">ავტო-განახლება (30წმ)</span></div>
     <div class="actions">
       <button id="btn-refresh" class="btn primary" type="button">↻ განახლება</button>
       <a class="btn" href="/live.html">🗺️ რუკები</a>
@@ -261,13 +261,28 @@
     document.getElementById('sched-368').addEventListener('click', () => togglePaneSchedule(368));
     document.getElementById('sched-477').addEventListener('click', () => togglePaneSchedule(477));
 
-    document.getElementById('btn-refresh').addEventListener('click', () => {
+    function refreshBoards() {
       for (const id of ['f-368', 'f-477', 'f-3462']) {
         const frame = document.getElementById(id);
         if (frame) frame.src = frame.src;
       }
+      const nowStr = new Intl.DateTimeFormat('ka-GE', {
+        timeZone: 'Asia/Tbilisi',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      }).format(new Date());
+      const syncEl = document.getElementById('last-sync');
+      if (syncEl) syncEl.textContent = `განახლდა: ${nowStr}`;
+    }
+
+    document.getElementById('btn-refresh').addEventListener('click', () => {
+      refreshBoards();
       loadBottomMap();
     });
+
+    setInterval(refreshBoards, 30000);
 
     // Interactive Leaflet route map (works 100% on GitHub Pages without TTC Mapbox cross-origin errors)
     let bottomMap = null;
