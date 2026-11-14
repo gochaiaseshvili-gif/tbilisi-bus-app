@@ -180,7 +180,7 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="title">🚌 368 [2026] და 477 [2308] · <span id="last-sync" style="color:#a1a7b3;font-size:0.8rem;font-weight:600;">ავტო-განახლება (30წმ)</span></div>
+    <div class="title">🚌 368 [2026] და 477 [2308] · <span id="last-sync" style="color:#a1a7b3;font-size:0.8rem;font-weight:600;">ავტო-განახლება (10წმ)</span></div>
     <div class="actions">
       <button id="btn-refresh" class="btn primary" type="button">↻ განახლება</button>
       <a class="btn" href="/live.html">🗺️ რუკები</a>
@@ -282,7 +282,7 @@
       loadBottomMap();
     });
 
-    setInterval(refreshBoards, 30000);
+    setInterval(refreshBoards, 10000);
 
     // Interactive Leaflet route map (works 100% on GitHub Pages without TTC Mapbox cross-origin errors)
     let bottomMap = null;
@@ -428,7 +428,7 @@
     }
 
     loadBottomMap();
-    setInterval(loadBottomMap, 25000);
+    setInterval(loadBottomMap, 5000);
   </script>
 </body>
 </html>
