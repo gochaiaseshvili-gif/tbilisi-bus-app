@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#121316" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>368 [2026] &amp; 477 [2308] — მოსვლის დრო</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #121316;
+      color: #f3f4f6;
+      font-family: 'Noto Sans Georgian', system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #1d1f24;
+      border-bottom: 1px solid #333741;
+      flex-shrink: 0;
+    }
+    .title {
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+    .actions {
+      display: flex;
+      gap: 6px;
+    }
+    .btn {
+      background: #272a31;
+      color: #f3f4f6;
+      border: 1px solid #333741;
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn.primary {
+      background: #e11d48;
+      border-color: #e11d48;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-auto-rows: 520px;
+      gap: 6px;
+      padding: 6px;
+    }
+    .pane-full {
+      grid-column: 1 / -1;
+      height: 640px;
+    }
+    @media (max-width: 860px) {
+      .split {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 580px;
+      }
+      .pane-full {
+        height: 760px;
+      }
+    }
+    .pane {
+      display: flex;
+      flex-direction: column;
+      background: #1d1f24;
+      border: 1px solid #333741;
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .pane-head {
+      padding: 6px 10px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #272a31;
+      border-bottom: 1px solid #333741;
+      flex-shrink: 0;
+    }
+    .badge {
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: #ffffff;
+      margin-right: 4px;
+    }
+    .next-strip {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 6px 10px;
+      background: #181a20;
+      border-bottom: 1px solid #333741;
+      font-size: 0.82rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .next-label {
+      color: #a1a7b3;
+    }
+    .next-chip {
+      background: #272a31;
+      border: 1px solid #3b404d;
+      color: #f3f4f6;
+      border-radius: 7px;
+      padding: 2px 7px;
+      font-weight: 800;
+    }
+    iframe {
+      width: 100%;
+      flex: 1;
+      border: none;
+      background: #ffffff;
+      min-height: 0;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="title">🚌 368 [2026] და 477 [2308] — ცოცხალი დრო</div>
+    <div class="actions">
+      <button id="btn-refresh" class="btn primary" type="button">↻ განახლება</button>
+      <a class="btn" href="/live.html">🗺️ რუკები</a>
+    </div>
+  </header>
+
+  <main class="split">
+    <section class="pane">
+      <div class="pane-head">
+        <span><span class="badge" style="background:#00b38b">368</span> №220 საჯარო სკოლა - [2026]</span>
+        <div style="display:flex;gap:6px;">
+          <button id="sched-368" class="btn" style="padding:2px 8px;font-size:0.75rem" type="button">📅 განრიგი</button>
+          <a class="btn" style="padding:2px 8px;font-size:0.75rem" href="https://transit.ttc.com.ge/#/board-info/1:2026/arrival-times?setLng=ka" target="_blank" rel="noopener">↗</a>
+        </div>
+      </div>
+      <div id="times-368" class="next-strip">
+        <span class="next-label">შემდეგი დროები: იტვირთება...</span>
+      </div>
+      <iframe id="f-368" src="https://transit.ttc.com.ge/#/board-info/1:2026/arrival-times?setLng=ka" title="368 - 2026"></iframe>
+    </section>
+
+    <section class="pane">
+      <div class="pane-head">
+        <span><span class="badge" style="background:#0033b4">477</span> ქურდიანის ქუჩა - [2308]</span>
+        <div style="display:flex;gap:6px;">
+          <button id="sched-477" class="btn" style="padding:2px 8px;font-size:0.75rem" type="button">📅 განრიგი</button>
+          <a class="btn" style="padding:2px 8px;font-size:0.75rem" href="https://transit.ttc.com.ge/#/board-info/1:2308/arrival-times?setLng=ka" target="_blank" rel="noopener">↗</a>
+        </div>
+      </div>
+      <div id="times-477" class="next-strip">
+        <span class="next-label">შემდეგი დროები [2308]:</span>
+        <button id="sched-477-inline" class="btn" style="padding:2px 8px;font-size:0.78rem" type="button">📅 გახსენი [2308] განრიგი</button>
+      </div>
+      <iframe id="f-477" src="https://transit.ttc.com.ge/#/board-info/1:2308/arrival-times?setLng=ka" title="477 - 2308"></iframe>
+    </section>
+
+    <section class="pane pane-full">
+      <div class="pane-head">
+        <span>
+          <span class="badge" style="background:#00b38b">368</span>
+          <span class="badge" style="background:#0033b4">477</span>
+          დავით კლდიაშვილის ქუჩა - [3462] (ერთად)
+        </span>
+        <a class="btn" style="padding:2px 8px;font-size:0.75rem" href="https://transit.ttc.com.ge/#/board-info/1:3462/arrival-times?setLng=ka" target="_blank" rel="noopener">↗</a>
+      </div>
+      <div id="times-3462" class="next-strip">
+        <span class="next-label">შემდეგი დროები [3462]: იტვირთება...</span>
+      </div>
+      <iframe id="f-3462" src="https://transit.ttc.com.ge/#/board-info/1:3462/arrival-times?setLng=ka" title="368 &amp; 477 - 3462"></iframe>
+    </section>
+  </main>
+
+  <script>
+    const URLS = {
+      368: {
+        live: 'https://transit.ttc.com.ge/#/board-info/1:2026/arrival-times?setLng=ka',
+        sched: 'https://transit.ttc.com.ge/#/schedule/1:R98308/1:01/stops/1:2026?setLng=ka',
+      },
+      477: {
+        live: 'https://transit.ttc.com.ge/#/board-info/1:2308/arrival-times?setLng=ka',
+        sched: 'https://transit.ttc.com.ge/#/schedule/1:minibusR24403/0:01/stops/1:2308?setLng=ka',
+      },
+    };
+    const modeState = { 368: 'live', 477: 'live' };
+
+    function togglePaneSchedule(num) {
+      const iframe = document.getElementById(`f-${num}`);
+      const btn = document.getElementById(`sched-${num}`);
+      const nextMode = modeState[num] === 'live' ? 'sched' : 'live';
+      modeState[num] = nextMode;
+      iframe.src = URLS[num][nextMode];
+      btn.textContent = nextMode === 'sched' ? '⏱ ტაბლო' : '📅 განრიგი';
+    }
+
+    document.getElementById('sched-368').addEventListener('click', () => togglePaneSchedule(368));
+    document.getElementById('sched-477').addEventListener('click', () => togglePaneSchedule(477));
+    document.getElementById('sched-477-inline').addEventListener('click', () => togglePaneSchedule(477));
+
+    async function loadNextStrip(stopId, route, containerId, fallbackStopId = '', fallbackNote = '') {
+      const el = document.getElementById(containerId);
+      const tryFetch = async (id) => {
+        try {
+          const res = await fetch(`/api/stop-times?stopId=${encodeURIComponent(id)}&route=${encodeURIComponent(route)}`);
+          if (res.ok) {
+            const data = await res.json();
+            return (data.times || []).slice(0, 6);
+          }
+        } catch {
+          // Fall through to direct Transitous API when hosted statically
+        }
+        const trRes = await fetch(`https://api.transitous.org/api/v1/stoptimes?stopId=${encodeURIComponent(id)}&n=60`);
+        if (!trRes.ok) return null;
+        const trData = await trRes.json();
+        const nowMs = Date.now();
+        return (trData.stopTimes || [])
+          .filter((st) => !route || st.routeShortName === route)
+          .map((st) => {
+            const raw = st.place?.departure || st.place?.scheduledDeparture || st.place?.arrival;
+            const dt = raw ? new Date(raw) : null;
+            const time = dt
+              ? new Intl.DateTimeFormat('ka-GE', { timeZone: 'Asia/Tbilisi', hour: '2-digit', minute: '2-digit', hour12: false }).format(dt)
+              : '--:--';
+            const minutesUntil = dt ? Math.round((dt.getTime() - nowMs) / 60000) : null;
+            return { routeNumber: st.routeShortName, time, minutesUntil };
+          })
+          .filter((t) => t.minutesUntil === null || t.minutesUntil >= -1)
+          .slice(0, 6);
+      };
+
+      try {
+        let times = await tryFetch(stopId);
+        let label = 'შემდეგი დროები:';
+        if ((!times || times.length === 0) && fallbackStopId) {
+          times = await tryFetch(fallbackStopId);
+          if (times && times.length > 0 && fallbackNote) {
+            label = `შემდეგი დროები (${fallbackNote}):`;
+          }
+        }
+        if (!times || times.length === 0) return;
+
+        el.innerHTML =
+          `<span class="next-label">${label}</span>` +
+          times
+            .map((t) => {
+              const minTxt =
+                t.minutesUntil !== null && t.minutesUntil !== undefined
+                  ? t.minutesUntil <= 0
+                    ? ' (ახლა)'
+                    : ` (${t.minutesUntil} წთ)`
+                  : '';
+              return `<span class="next-chip">${t.time}${minTxt}</span>`;
+            })
+            .join('');
+      } catch {
+        // Keep fallback
+      }
+    }
+
+    async function loadCombined3462Strip() {
+      const el = document.getElementById('times-3462');
+      try {
+        let times = [];
+        try {
+          const res = await fetch(`/api/stop-times?stopId=${encodeURIComponent('ge-tbilisi-transport-company_1:3462')}`);
+          if (res.ok) {
+            const data = await res.json();
+            times = (data.times || []).filter((t) => t.routeNumber === '368' || t.routeNumber === '477').slice(0, 6);
+          }
+        } catch {
+          // Static fallback below
+        }
+        if (times.length === 0) {
+          const trRes = await fetch(`https://api.transitous.org/api/v1/stoptimes?stopId=${encodeURIComponent('ge-tbilisi-transport-company_1:3462')}&n=60`);
+          if (trRes.ok) {
+            const trData = await trRes.json();
+            const nowMs = Date.now();
+            times = (trData.stopTimes || [])
+              .filter((st) => st.routeShortName === '368' || st.routeShortName === '477')
+              .map((st) => {
+                const raw = st.place?.departure || st.place?.scheduledDeparture || st.place?.arrival;
+                const dt = raw ? new Date(raw) : null;
+                const time = dt
+                  ? new Intl.DateTimeFormat('ka-GE', { timeZone: 'Asia/Tbilisi', hour: '2-digit', minute: '2-digit', hour12: false }).format(dt)
+                  : '--:--';
+                const minutesUntil = dt ? Math.round((dt.getTime() - nowMs) / 60000) : null;
+                return { routeNumber: st.routeShortName, time, minutesUntil };
+              })
+              .filter((t) => t.minutesUntil === null || t.minutesUntil >= -1)
+              .slice(0, 6);
+          }
+        }
+        if (times.length === 0) return;
+        el.innerHTML =
+          `<span class="next-label">შემდეგი დროები [3462]:</span>` +
+          times
+            .map((t) => {
+              const minTxt =
+                t.minutesUntil !== null && t.minutesUntil !== undefined
+                  ? t.minutesUntil <= 0
+                    ? ' (ახლა)'
+                    : ` (${t.minutesUntil} წთ)`
+                  : '';
+              return `<span class="next-chip">№${t.routeNumber}: ${t.time}${minTxt}</span>`;
+            })
+            .join('');
+      } catch {
+        // Keep fallback
+      }
+    }
+
+    function refreshStrips() {
+      loadNextStrip('ge-tbilisi-transport-company_1:2026', '368', 'times-368');
+      loadNextStrip(
+        'ge-tbilisi-transport-company_1:2308',
+        '477',
+        'times-477',
+        'ge-tbilisi-transport-company_1:2300',
+        '~[2300] ქურდიანის ქ.'
+      );
+      loadCombined3462Strip();
+    }
+
+    refreshStrips();
+
+    document.getElementById('btn-refresh').addEventListener('click', () => {
+      const f1 = document.getElementById('f-368');
+      const f2 = document.getElementById('f-477');
+      const f3 = document.getElementById('f-3462');
+      f1.src = f1.src;
+      f2.src = f2.src;
+      f3.src = f3.src;
+      refreshStrips();
+    });
+  </script>
+</body>
+</html>
