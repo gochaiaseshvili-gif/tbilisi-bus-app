@@ -450,8 +450,8 @@
 
       try {
         const now = new Date();
-        const start = new Date(now.getTime() - 10 * 60000).toISOString();
-        const end = new Date(now.getTime() + 25 * 60000).toISOString();
+        const start = new Date(now.getTime() - 25 * 60000).toISOString();
+        const end = new Date(now.getTime() + 15 * 60000).toISOString();
         const mtRes = await fetch(
           `https://api.transitous.org/api/v1/map/trips?min=41.714,44.785&max=41.732,44.825&startTime=${encodeURIComponent(start)}&endTime=${encodeURIComponent(end)}&zoom=15`
         );
